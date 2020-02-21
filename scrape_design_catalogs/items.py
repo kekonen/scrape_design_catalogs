@@ -12,3 +12,18 @@ class ScrapeDesignCatalogsItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+class HKItem(scrapy.Item):
+    # define the fields for your item here like:
+    name = scrapy.Field()
+    description = scrapy.Field()
+    ean = scrapy.Field()
+    product_code = scrapy.Field()
+    dimensions = scrapy.Field()
+    weight = scrapy.Field()
+    # pass
+
+class HKPictureItem(scrapy.Item):
+    # define the fields for your item here like:
+    product_code = scrapy.Field()
+    link = scrapy.Field()
