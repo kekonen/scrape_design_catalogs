@@ -21,6 +21,7 @@ class HKItem(scrapy.Item):
     product_code = scrapy.Field()
     dimensions = scrapy.Field()
     weight = scrapy.Field()
+    all_specs = scrapy.Field()
     # pass
 
 class HKPictureItem(scrapy.Item):

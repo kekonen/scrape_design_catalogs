@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import scrapy
+import scrapy, logging, json
 from scrape_design_catalogs.items import HKItem, HKPictureItem
-import logging
 
 
 class HklivingSpider(scrapy.Spider):
@@ -21,7 +20,9 @@ class HklivingSpider(scrapy.Spider):
 
     def parse_product(self, response):
         product_name = response.css('h2::text').get().replace('\xa0', '')[1:]
-        product_description = response.css('.hk_description::text').get().strip()
+
+        description_selector = response.css('.hk_description::text') or response.css('.hk_description strong::text')
+        product_description = description_selector.get().strip()
 
         specs_selectors = response.css('li.hk_row_specs')[1:]
 
@@ -40,7 +41,8 @@ class HklivingSpider(scrapy.Spider):
         product['ean'] = specs['EAN code']
         product['product_code'] = specs['product code']
         product['dimensions'] = specs['dimensions']
-        product['weight'] = specs['product weight (gr)']
+        product['weight'] = specs['product weight (gr)'] if 'product weight (gr)' in specs else '0'
+        product['all_specs'] = json.dumps(specs)
         yield product
 
         picture = HKPictureItem()
